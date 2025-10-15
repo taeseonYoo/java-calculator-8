@@ -25,7 +25,7 @@ public class Separator {
     }
 
     private void verifyCustomSeparatorLength(String inputValue) {
-        if (inputValue.indexOf("\n") != 3) {
+        if (inputValue.indexOf("\\n") != 3) {
             throw new IllegalArgumentException("구분자는 한 자리만 가능합니다.");
         }
     }
@@ -37,7 +37,8 @@ public class Separator {
     }
 
     private boolean verifyInputHasCustomSeparator(String inputValue) {
-        return inputValue.startsWith("//") && inputValue.length() > 4 && inputValue.charAt(3) == '\n';
+        return inputValue.startsWith("//") && inputValue.length() > 4 && inputValue.charAt(3) == '\\'
+                && inputValue.charAt(4) == 'n';
     }
 
     public Operand[] split(String inputValue) {
@@ -47,6 +48,7 @@ public class Separator {
                         .map(s -> new Operand(Integer.parseInt(s)))
                         .toArray(Operand[]::new);
             } else {
+                inputValue = inputValue.substring(inputValue.indexOf("\\n") + 2);
                 return Arrays.stream(inputValue.split(customSeparator))
                         .map(s -> new Operand(Integer.parseInt(s)))
                         .toArray(Operand[]::new);
