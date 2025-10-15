@@ -7,6 +7,8 @@ public class IntegerCalculator implements Calculator {
 
     public IntegerCalculator(String inputValue) {
         //TODO Separator로 operands를 초기화한다.
+        Separator separator = new Separator(inputValue);
+        operands = separator.split(inputValue);
     }
 
     @Override
