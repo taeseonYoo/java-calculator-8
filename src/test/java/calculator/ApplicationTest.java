@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ApplicationTest extends NsTest {
     @Test
@@ -46,6 +47,23 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             run(inputValue);
             assertThat(output()).contains("결과 : " + expectedLength);
+        });
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1,0,2", "-1,0,1", "//^\\n1^0", "//^\\n1^-1"})
+    void 피연산자_음수_0(String inputValue) {
+        assertSimpleTest(() -> {
+            assertThatThrownBy(() -> runException(inputValue))
+                    .isInstanceOf(IllegalArgumentException.class);
+        });
+    }
+
+    @Test
+    void 숫자만_입력_테스트() {
+        assertSimpleTest(() -> {
+            run("12");
+            assertThat(output()).contains("결과 : " + 12);
         });
     }
 
