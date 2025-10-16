@@ -21,7 +21,6 @@ public class Separator {
         if (verifyInputHasCustomSeparator(inputValue)) {
             verifyCustomSeparatorLength(inputValue);
             this.customSeparator = preventRegex(inputValue.substring(2, inputValue.indexOf("\\n")));
-            System.out.println(customSeparator);
         }
     }
 
