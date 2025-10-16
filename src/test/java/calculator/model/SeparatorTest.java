@@ -8,10 +8,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class SeparatorTest {
     @ParameterizedTest
-    @ValueSource(strings = {"`", "~", "!", "@", "#", "$", "%", "^", "&", "*",
-            "(", ")", "_", "+", "{", "}", "[", "]", "}", "<",
-            ">", "?", "/", "|", "\\", "-", "=", ";", ".", "\"", "'"})
+    @ValueSource(strings = {"`", "~", "!", "@", "#", "%", "&", "_",
+            "<", ">", "/", "=", ";", "\"", "'"})
     void customSeparator_create_success(String customSeparator) {
+
         //given
         String inputValue = "//" + customSeparator + "\\n";
         //when
@@ -19,18 +19,20 @@ class SeparatorTest {
         //then
         Assertions.assertThat(separator.getCustomSeparator())
                 .isEqualTo(customSeparator);
-
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"a", "A", "z", "Z", "ㄱ", "가", "힣", "ㅎ", "ㅏ", "ㅣ"})
-    void customSeparator_create_fail(String customSeparator) {
+    @ValueSource(strings = {"$", "^", "*", "(", ")", "+", "{", "}",
+            "[", "]", "}", "?", "|", "\\", "-", "."})
+    void regex_customSeparator_create_success(String customSeparator) {
+
         //given
         String inputValue = "//" + customSeparator + "\\n";
-        //when & then
-        Assertions.assertThatThrownBy(() ->
-                        new Separator(inputValue))
-                .isInstanceOf(IllegalArgumentException.class);
+        //when
+        Separator separator = new Separator(inputValue);
+        //then
+        Assertions.assertThat(separator.getCustomSeparator())
+                .isEqualTo("\\" + customSeparator);
     }
 
     @ParameterizedTest

@@ -3,6 +3,7 @@ package calculator.model;
 import java.util.Arrays;
 
 public class IntegerCalculator implements Calculator {
+    private final static String INVALID_OPERAND_RANGE = "피연산자는 양수만 입력 가능합니다.";
     private final Operand[] operands;
 
     public IntegerCalculator(String inputValue) {
@@ -23,7 +24,7 @@ public class IntegerCalculator implements Calculator {
     private void verifyOperandIsPositive() {
         for (Operand operand : operands) {
             if (operand.getOperand() <= 0) {
-                throw new IllegalArgumentException("피연산자는 양수만 입력 가능합니다.");
+                throw new IllegalArgumentException(INVALID_OPERAND_RANGE);
             }
         }
     }
